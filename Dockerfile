@@ -20,12 +20,17 @@ COPY . .
 RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
     && cmake --build build --config Release
 
+# Run tests
+RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
+    && cmake --build build \
+    && cd build && ctest --output-on-failure
+
 # ==============================
 # Stage 2: Runtime
 # ==============================
 FROM ubuntu:22.04
 
-# Create non-root user (defense-style hygiene)
+# Create non-root user
 RUN useradd -m missionuser
 
 WORKDIR /app
