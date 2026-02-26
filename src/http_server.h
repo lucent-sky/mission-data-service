@@ -2,8 +2,10 @@
 
 #include <memory>
 #include <atomic>
+#include <chrono>
 
 #include "data_store.h"
+
 
 namespace httplib
 {
@@ -24,6 +26,15 @@ namespace mds
 class HttpServer
 {
 public:
+    // Metrics measurements
+    std::atomic<std::uint64_t> requests_total_{0};
+    std::atomic<std::uint64_t> ingest_success_total_{0};
+    std::atomic<std::uint64_t> ingest_validation_failures_total_{0};
+    std::atomic<std::uint64_t> ingest_json_failures_total_{0};
+    std::atomic<std::uint64_t> stats_requests_total_{0};
+
+    std::atomic<std::uint64_t> total_latency_us_{0};
+
     explicit HttpServer(DataStore& store);
     ~HttpServer();
 

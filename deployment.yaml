@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mission-data-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mds
+  template:
+    metadata:
+      labels:
+        app: mds
+    spec:
+      containers:
+      - name: mds
+        image: mission-data-service
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
